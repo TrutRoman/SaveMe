@@ -55,6 +55,12 @@ public class MainMenu : MonoBehaviour
         animStart.SetTrigger("info");
     }
 
+    //Кнопка повернення з інформації
+    public void ButtonBackInformation()
+    {
+        animStart.SetTrigger("backinfo");
+    }
+
     //Кнопка виходу з гри
     public void ButtonExit()
     {
@@ -72,6 +78,8 @@ public class MainMenu : MonoBehaviour
     {
         animStart.SetTrigger("backStart");
     }
+
+
 
 
 
