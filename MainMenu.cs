@@ -12,12 +12,6 @@ public class MainMenu : MonoBehaviour
     void Start()
     {
         animStart = GetComponent<Animator>();
-        sliderGame.value = 0.5f;
-        sliderMusic.value = 0.5f;
-        Locale locale = LocalizationSettings.AvailableLocales.GetLocale("en");
-        LocalizationSettings.SelectedLocale = locale;
-        buttonEn.gameObject.SetActive(true);
-        buttonUA.gameObject.SetActive(false);
     }
 
 
@@ -26,6 +20,13 @@ public class MainMenu : MonoBehaviour
         SetBrightness();
         MusicV();
         GameV();
+        SaveSettings();
+    }
+    void Awake()
+    {
+        if (brightness == 0) brightness = 0;
+
+        LoadSettings();
     }
 
 
@@ -142,6 +143,9 @@ public class MainMenu : MonoBehaviour
         Locale locale = LocalizationSettings.AvailableLocales.GetLocale("uk");
         LocalizationSettings.SelectedLocale = locale;
         textFullscreen.text = isFullscreen ? "Повноекранний режим: Увімкнено" : "Повноекранний режим: Вимкнено";
+
+        PlayerPrefs.SetString("lang", "uk");
+        PlayerPrefs.Save();
     }
 
     public void ChangeLanguageToUkrainian()
@@ -151,5 +155,53 @@ public class MainMenu : MonoBehaviour
         Locale locale = LocalizationSettings.AvailableLocales.GetLocale("en");
         LocalizationSettings.SelectedLocale = locale;
         textFullscreen.text = isFullscreen ? "Fullscreen: On" : "Fullscreen: Off";
+
+        PlayerPrefs.SetString("lang", "en");
+        PlayerPrefs.Save();
+    }
+
+
+
+
+
+    //Збереження даних і їх завантаження
+
+    public void SaveSettings()
+    {
+        PlayerPrefs.SetString("lang", LocalizationSettings.SelectedLocale.Identifier.Code);
+        PlayerPrefs.SetFloat("brightness", brightness);
+        PlayerPrefs.SetFloat("musicVolume", musicVolume);
+        PlayerPrefs.SetFloat("gameVolume", gameVolume);
+        PlayerPrefs.SetFloat("fullscreen", isFullscreen ? 1f : 0f);
+
+
+        PlayerPrefs.Save();
+    }
+
+    public void LoadSettings()
+    {
+    
+        string savedLang = PlayerPrefs.GetString("lang", "en");
+        Locale locale = LocalizationSettings.AvailableLocales.GetLocale(savedLang);
+        LocalizationSettings.SelectedLocale = locale;
+
+        brightness = PlayerPrefs.GetFloat("brightness", 0.4f);
+        musicVolume = PlayerPrefs.GetFloat("musicVolume", 1f);
+        gameVolume = PlayerPrefs.GetFloat("gameVolume", 1f);
+        isFullscreen = PlayerPrefs.GetFloat("fullscreen", 0f) == 1f;
+
+    
+        sliderBrightness.value = brightness;
+        sliderMusic.value = musicVolume;
+        sliderGame.value = gameVolume;
+
+    
+        textFullscreen.text = savedLang == "en"
+        ? (isFullscreen ? "Fullscreen: On" : "Fullscreen: Off")
+        : (isFullscreen ? "Повноекранний режим: Увімкнено" : "Повноекранний режим: Вимкнено");
+
+        
+        buttonEn.gameObject.SetActive(savedLang == "en");
+        buttonUA.gameObject.SetActive(savedLang == "uk");
     }
 }
