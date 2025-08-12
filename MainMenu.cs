@@ -115,14 +115,16 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene(1);
 
         PlayerPrefs.SetInt("isPerson", isPerson ? 1 : 0);
+        PlayerPrefs.SetInt("savedSceneIndex", 0);
         PlayerPrefs.Save();
     }
     public void Grus()
     {
         isPerson = false;
         SceneManager.LoadScene(1);
-
+    
         PlayerPrefs.SetInt("isPerson", isPerson ? 1 : 0);
+        PlayerPrefs.SetInt("savedSceneIndex", 0);
         PlayerPrefs.Save();
     }
 
@@ -235,9 +237,9 @@ public class MainMenu : MonoBehaviour
         Locale locale = LocalizationSettings.AvailableLocales.GetLocale(savedLang);
         LocalizationSettings.SelectedLocale = locale;
 
-        brightness = PlayerPrefs.GetFloat("brightness", 0.4f);
-        musicVolume = PlayerPrefs.GetFloat("musicVolume", 1f);
-        gameVolume = PlayerPrefs.GetFloat("gameVolume", 1f);
+        brightness = PlayerPrefs.GetFloat("brightness", 0f);
+        musicVolume = PlayerPrefs.GetFloat("musicVolume", 0.5f);
+        gameVolume = PlayerPrefs.GetFloat("gameVolume", 0.5f);
         isFullscreen = PlayerPrefs.GetFloat("fullscreen", 0f) == 1f;
 
 
