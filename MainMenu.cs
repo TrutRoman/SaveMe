@@ -21,12 +21,36 @@ public class MainMenu : MonoBehaviour
         MusicV();
         GameV();
         SaveSettings();
+        if (ContinueV == 0)
+        {
+            buttonContinue.gameObject.SetActive(false);
+        }
+        else
+        {
+            buttonContinue.gameObject.SetActive(true);
+        }
+        if (isContinue == true)
+        {
+            ContinueTime += Time.deltaTime;
+            if (ContinueTime >= 3)
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+            }
+        }
+        
     }
+
+    public int ContinueV;
+    public Button buttonContinue;
     void Awake()
     {
         if (brightness == 0) brightness = 0;
-
+        ContinueV = PlayerPrefs.GetInt("savedSceneIndex", 0);
+        
         LoadSettings();
+
+        ContinueTime = 0;
+        Time.timeScale = 1;
     }
 
 
@@ -39,9 +63,12 @@ public class MainMenu : MonoBehaviour
     }
 
     //Кнопка продовження гри
+    public static bool isContinue = false;
+    float ContinueTime = 0;
     public void ButtonContinue()
     {
         animStart.SetTrigger("Continue");
+        isContinue = true;
     }
 
     //Кнопка налаштувань
@@ -78,6 +105,25 @@ public class MainMenu : MonoBehaviour
     public void ButtonBack2()
     {
         animStart.SetTrigger("backStart");
+    }
+
+    //Вибір персонажів
+    public bool isPerson = false;//Якщо false, то вибрано персонажа "Грус", а якщо true, то "Арра"
+    public void Arra()
+    {
+        isPerson = true;
+        SceneManager.LoadScene(1);
+
+        PlayerPrefs.SetInt("isPerson", isPerson ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+    public void Grus()
+    {
+        isPerson = false;
+        SceneManager.LoadScene(1);
+
+        PlayerPrefs.SetInt("isPerson", isPerson ? 1 : 0);
+        PlayerPrefs.Save();
     }
 
 
@@ -164,8 +210,12 @@ public class MainMenu : MonoBehaviour
 
 
 
+
+
     //Збереження даних і їх завантаження
 
+
+    //Зберігання налаштувань
     public void SaveSettings()
     {
         PlayerPrefs.SetString("lang", LocalizationSettings.SelectedLocale.Identifier.Code);
@@ -174,13 +224,13 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.SetFloat("gameVolume", gameVolume);
         PlayerPrefs.SetFloat("fullscreen", isFullscreen ? 1f : 0f);
 
-
         PlayerPrefs.Save();
     }
 
+    //Завантаження налаштувань
     public void LoadSettings()
     {
-    
+
         string savedLang = PlayerPrefs.GetString("lang", "en");
         Locale locale = LocalizationSettings.AvailableLocales.GetLocale(savedLang);
         LocalizationSettings.SelectedLocale = locale;
@@ -190,18 +240,21 @@ public class MainMenu : MonoBehaviour
         gameVolume = PlayerPrefs.GetFloat("gameVolume", 1f);
         isFullscreen = PlayerPrefs.GetFloat("fullscreen", 0f) == 1f;
 
-    
+
         sliderBrightness.value = brightness;
         sliderMusic.value = musicVolume;
         sliderGame.value = gameVolume;
 
-    
+
         textFullscreen.text = savedLang == "en"
         ? (isFullscreen ? "Fullscreen: On" : "Fullscreen: Off")
         : (isFullscreen ? "Повноекранний режим: Увімкнено" : "Повноекранний режим: Вимкнено");
 
-        
+
         buttonEn.gameObject.SetActive(savedLang == "en");
         buttonUA.gameObject.SetActive(savedLang == "uk");
     }
+
+
+
 }
