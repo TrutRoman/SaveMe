@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: UItext_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 3f2141a5a305eb249acf3d847efdd892, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 111925956608
+    m_Localized: New game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 323977383936
+    m_Localized: Setting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 400057864192
+    m_Localized: Information
+    m_Metadata:
+      m_Items: []
+  - m_Id: 500041682944
+    m_Localized: "\u0421ontinue"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 593465610240
+    m_Localized: Quit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 708448260096
+    m_Localized: 'Brightness:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 862144335872
+    m_Localized: Back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1053685616640
+    m_Localized: 'Video:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1222447632384
+    m_Localized: Full-Screen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1521467953152
+    m_Localized: 'Music:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1654112817152
+    m_Localized: 'Audio game:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1846501347328
+    m_Localized: Arra
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1897155956736
+    m_Localized: Grus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52571067551744
+    m_Localized: Select person
+    m_Metadata:
+      m_Items: []
+  - m_Id: 53219179794432
+    m_Localized: Audio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85526263533568
+    m_Localized: 'Move:
+
+      Right - D
+
+      Left - A
+
+      Jump - W
+
+      Run
+      - Shift+D / Shift+A
+
+
+      Fight:
+
+      Attack - Mouse1
+
+      Block - Mouse2
+
+      Heals
+      - Q
+
+      Use/interaction-F
+
+'
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
