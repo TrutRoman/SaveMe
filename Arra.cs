@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class Arra : MonoBehaviour
+public class Grus : MonoBehaviour
 {
     [Header("Movement")]
     public float speed = 5f;
@@ -12,7 +12,7 @@ public class Arra : MonoBehaviour
     private Rigidbody2D rb;
     private bool isMove = false;
     private bool isMoving = false;
-    public static bool isRotateArra;
+    public static bool isRotateGrus;
 
     [Header("Is Grounded")]
     public Transform groundCheck;
@@ -27,18 +27,14 @@ public class Arra : MonoBehaviour
     public Animator animator;
 
     [Header("Attack")]
-    public GameObject bollPrefab;
-    public Transform spawnBoll;
     private float cooldownTime;
     public float cooldownMax = 3f;
     private float attackCooldownTime;
+    public static int powerDamage = 20;
+    public GameObject attackEffect;
 
     [Header("Block")]
-    public float blockCooldownTime;
-    public float blockCooldownMax = 15f;
-    public GameObject block;
-    public static int BlockHPArra;
-    public static bool isBlockArra;
+    public static bool isBlockGrus;
 
     [Header("Damage")]
     public SpriteRenderer sr;
@@ -46,11 +42,11 @@ public class Arra : MonoBehaviour
     float damageTime = 0f; 
 
     [Header("Characteristics")]
-    public int maxHealthArra = 100;
-    public int HealthArra;
-    public static int XPArra;
-    public static int maxXPArra = 100;
-    public int LevelArra = 1;
+    public int maxHealthGrus = 100;
+    public int HealthGrus;
+    public static int XPGrus;
+    public static int maxXPGrus = 100;
+    public int LevelGrus = 1;
 
     [Header("UI Characteristics")]
     public Image HealthImage;
@@ -64,15 +60,17 @@ public class Arra : MonoBehaviour
     public AudioClip impact;
     public AudioClip attackClip;   
     public AudioClip damageClip;  
-    public AudioClip blockClip;
     public AudioClip deathClip;
-    public AudioClip flyClip;
     public AudioClip LevelUpClip;
     public float VolumeAudioSoundd;
 
     // Таймер для кроків
     private float walkSoundTimer = 0f;
     public float walkSoundInterval = 0.35f;
+
+
+    public static bool isPause = false;
+    public int savedSceneIndexGrus;
 
     void Start()
     {
@@ -81,42 +79,54 @@ public class Arra : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
-        HealthArra = maxHealthArra;
-        blockArra.BlockHP = blockArra.staticMaxBlockHP;
+        HealthGrus = maxHealthGrus;
 
         isMove = true;
         isMoving = false;
+        isPause = false;
+        isBlockGrus = false;
 
-        HealthArra = PlayerPrefs.GetInt("HealthArra", maxHealthArra);
-        XPArra = PlayerPrefs.GetInt("XPArra", 0);
-        maxXPArra = PlayerPrefs.GetInt("maxXPArra", 100);
-        LevelArra = PlayerPrefs.GetInt("LevelArra", 0);
-        maxHealthArra = PlayerPrefs.GetInt("maxHealthArra", 100);
-        FloraBoll.DamageBoll = PlayerPrefs.GetInt("DamageBoll", 10);
-        blockArra.staticMaxBlockHP = PlayerPrefs.GetInt("MaxBlockHP", 100); 
+        HealthGrus = PlayerPrefs.GetInt("HealthGrus", maxHealthGrus);
+        XPGrus = PlayerPrefs.GetInt("XPGrus", 0);
+        maxXPGrus = PlayerPrefs.GetInt("maxXPGrus", 100);
+        LevelGrus = PlayerPrefs.GetInt("LevelGrus", 0);
+        maxHealthGrus = PlayerPrefs.GetInt("maxHealthGrus", 100);
+        powerDamage = PlayerPrefs.GetInt("DamageGrus", 20);
         AudioWalk.volume = PlayerPrefs.GetFloat("gameVolume", 0.5f) * 1.5f;
+        savedSceneIndexGrus = PlayerPrefs.GetInt("savedSceneIndex", 2);
+        PlayerPrefs.SetInt("savedSceneIndex", savedSceneIndexGrus);
     }
 
     void Update()
     {
-        VolumeAudioSoundd = AudioWalk.volume;
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
-        MoveArra();
-        RotateArra();
-        Attack();
-        Block();
-        LevelUp();
-        UpHealthArra();
-        CharacterUI();
+        if (isPause == false)
+        {
+            VolumeAudioSoundd = AudioWalk.volume;
+            isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
+            if (isBlockGrus == false) MoveGrus();
+            RotateGrus();
+            Attack();
+            Block();
+            LevelUp();
+            UpHealthGrus();
+            CharacterUI();
 
-        if (isDamage) Damage();
-        else sr.color = new Color(1f, 1f, 1f, 1f);
+            if (isDamage) Damage();
+            else sr.color = new Color(1f, 1f, 1f, 1f);
 
-        PlayWalkSound();
+            PlayWalkSound();
 
-        if (Input.GetKey(KeyCode.Escape)) PauseObject.SetActive(true);
-        if (Pause.isExit) SaveDataArra();
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                PauseObject.SetActive(true);
+                isPause = true;
+            }
+        
+            if (Pause.isExit) SaveDataGrus();
 
+
+        }
+       
     }
 
     
@@ -143,36 +153,79 @@ public class Arra : MonoBehaviour
         if (other.CompareTag("Finish"))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            isMove = false;
         }
         if (other.CompareTag("Trap"))
         {
-            HealthArra -= 10;
-            if (HealthArra <= 0)
+            if (isBlockGrus == false)
             {
-                DeathArra();
+                HealthGrus -= 10;
+                if (HealthGrus <= 0)
+                {
+                    DeathGrus();
+                }
+                isDamage = true;
+                damageTime = 0.5f;
+                if (damageClip != null) AudioWalk.PlayOneShot(damageClip, AudioWalk.volume);
             }
-            isDamage = true;
-            damageTime = 0.5f;
-            if (damageClip != null) AudioWalk.PlayOneShot(damageClip, AudioWalk.volume);
+        }
+        if (other.CompareTag("Boulder"))
+        {
+            DeathGrus();
         }
         if (other.CompareTag("Enemy"))
         {
-            HealthArra -= 10; 
-            if (HealthArra <= 0)
+            if (isBlockGrus == false)
             {
-                DeathArra();
+                HealthGrus -= 10;
+                if (HealthGrus <= 0)
+                {
+                    DeathGrus();
+                }
+                isDamage = true;
+                damageTime = 0.5f;
+                if (damageClip != null) AudioWalk.PlayOneShot(damageClip, AudioWalk.volume);
             }
-            isDamage = true;
-            damageTime = 0.5f; 
-            if (damageClip != null) AudioWalk.PlayOneShot(damageClip, AudioWalk.volume);
+
+        }
+        if (other.CompareTag("Gul"))
+        {
+            if (!isBlockGrus)
+            {
+                HealthGrus -= 10;
+                if (HealthGrus <= 0)
+                {
+                    DeathGrus();
+                }
+                isDamage = true;
+                damageTime = 0.5f;
+                if (damageClip != null) AudioWalk.PlayOneShot(damageClip, AudioWalk.volume);
+            }
+        }
+
+        if (other.CompareTag("Ork"))
+        {
+            if (!isBlockGrus)
+            {
+                HealthGrus -= 20;
+                if (HealthGrus <= 0)
+                {
+                    DeathGrus();
+                }
+                isDamage = true;
+                damageTime = 0.5f;
+                if (damageClip != null) AudioWalk.PlayOneShot(damageClip, AudioWalk.volume);
+
+            }
         }
     }
 
     // Рух
-    void MoveArra()
+    void MoveGrus()
     {
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) && isDead == false)
         {
+            isMove = true;
             isMoving = true;
             if (isMove) transform.localPosition += transform.right * speed * Time.deltaTime;
             animator.SetBool("isWalk", true);
@@ -184,7 +237,7 @@ public class Arra : MonoBehaviour
                 
             }
         }
-        else if (Input.GetKey(KeyCode.A))
+        else if (Input.GetKey(KeyCode.A) && isDead == false)
         {
             isMoving = true;
             if (isMove) transform.localPosition += transform.right * -speed * Time.deltaTime;
@@ -203,7 +256,7 @@ public class Arra : MonoBehaviour
             animator.SetBool("isWalk", false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && isDead == false)
         {
             isMoving = true;
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
@@ -212,31 +265,42 @@ public class Arra : MonoBehaviour
         if ((Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.D)) || (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.A)))
         {
             speed = 8f;
-            walkSoundInterval = 0.4f; 
+            walkSoundInterval = 0.4f;
+            animator.SetBool("isRun", true);
+            animator.SetBool("isWalk", false);
+
+            if (!isGrounded)
+            {
+                animator.SetBool("isJump", true);
+                animator.SetBool("isRun", false);
+            } 
         }
         else
         {
+            animator.SetBool("isRun", false);
             speed = 5f;
-            walkSoundInterval = 0.6f; 
+            walkSoundInterval = 0.6f;
         }
 
         animator.SetBool("isJump", !isGrounded);
     }
 
-    void RotateArra()
+    void RotateGrus()
     {
         float mouseX = Input.mousePosition.x;
         float screenMiddle = Screen.width / 2f;
 
         if (mouseX < screenMiddle)
         {
-            isRotateArra = false;
+            isRotateGrus = false;
             transform.localScale = new Vector3(-1, 1, 1);
+            attackEffect.transform.position = transform.position + new Vector3(-4.5f, 0f, 0f);
         }
         else
         {
-            isRotateArra = true;
+            isRotateGrus = true;
             transform.localScale = new Vector3(1, 1, 1);
+            attackEffect.transform.position = transform.position + new Vector3(4.5f, 0f, 0f);
         }
     }
 
@@ -250,54 +314,54 @@ public class Arra : MonoBehaviour
         {
             cooldownTime = 0f;
             attackCooldownTime = cooldownTime; 
-            animator.SetTrigger("isAttack");
+            animator.SetTrigger("Attack");
             
             if (attackClip != null) AudioWalk.PlayOneShot(attackClip, AudioWalk.volume);
         }
     }
-
-    public void OnAttackButtonPressed()
+    public void OnAttackAnimationFinished()
     {
-        Instantiate(bollPrefab, spawnBoll.position, spawnBoll.rotation);
+        attackEffect.SetActive(true);
+    }
+    public void OnAttackEffectFinished()
+    {
+        attackEffect.SetActive(false);
     }
 
     //Block
     void Block()
     {
-        block.transform.localPosition = transform.localPosition;
-        blockCooldownTime += Time.deltaTime;
-        if (Input.GetMouseButtonDown(1) && blockCooldownTime >= blockCooldownMax && isMoving == false)
-        {
-            if (blockClip != null) AudioWalk.PlayOneShot(blockClip, AudioWalk.volume);
-            blockCooldownTime = 0f;
-            animator.SetTrigger("isBlock");
-            isBlockArra = true;
-            block.SetActive(true);
-            blockArra.BlockHP = blockArra.staticMaxBlockHP;
-        }
-    }
 
-    public void OnBlockButtonPressed()
-    {
-        block.SetActive(true);
-        isBlockArra = true;
-        blockArra.BlockHP = blockArra.staticMaxBlockHP;
-        blockCooldownTime = 0f;
+        if (Input.GetMouseButton(1) && isMoving == false)
+        {
+            isBlockGrus = true;
+        }
+        else
+        {
+            isBlockGrus = false;
+        }
+        animator.SetBool("isBlock", isBlockGrus);
     }
 
     // Смерть персонажа
-    public void DeathArra()
+    bool isDead = false;
+    public void DeathGrus()
     {
+        if (isDead) return; // якщо вже мертвий, вихід
+        isDead = true;
+
         if (deathClip != null) AudioWalk.PlayOneShot(deathClip, AudioWalk.volume);
         animator.SetTrigger("isDeath");
+        animator.SetBool("isWalk", false);
+        animator.SetBool("isRun", false);
+        animator.SetBool("isJump", false);
         isMove = false;
     }
-
     public void OnDeathAnimationFinished()
     {
         SceneManager.LoadScene(0);
-        SaveDataArra();
     }
+
 
     void Damage()
     {
@@ -312,59 +376,119 @@ public class Arra : MonoBehaviour
 
     void LevelUp()
     {
-        if (XPArra >= maxXPArra && LevelArra <= 10)
+        switch (LevelGrus)
         {
-            XPArra -= maxXPArra;
-            maxXPArra += 100;
-            LevelArra++;
-            maxHealthArra += 10;
-            HealthArra = maxHealthArra;
-            blockCooldownMax -= 0.5f;
-            cooldownMax -= 0.25f;
-            blockArra.staticMaxBlockHP += 10;
-            blockArra.BlockHP = blockArra.staticMaxBlockHP;
-            FloraBoll.DamageBoll += 5;
+            case 1:
+                maxXPGrus = 100;
+                maxHealthGrus = 120;
+                cooldownMax = 3f;
+                powerDamage = 10;
+                break;
+            case 2:
+                maxXPGrus = 200;
+                maxHealthGrus = 145;
+                cooldownMax = 2.75f;
+                powerDamage = 15;
+                break;
+            case 3:
+                maxXPGrus = 300;
+                maxHealthGrus = 170;
+                cooldownMax = 2.5f;
+                powerDamage = 20;
+                break;
+            case 4:
+                maxXPGrus = 400;
+                maxHealthGrus = 195;
+                cooldownMax = 2.25f;
+                powerDamage = 25;
+                break;
+            case 5:
+                maxXPGrus = 500;
+                maxHealthGrus = 220;
+                cooldownMax = 2f;
+                powerDamage = 30;
+                break;
+            case 6:
+                maxXPGrus = 600;
+                maxHealthGrus = 225;
+                cooldownMax = 1.75f;
+                powerDamage = 35;
+                break;
+            case 7:
+                maxXPGrus = 700;
+                maxHealthGrus = 250;
+                cooldownMax = 1.5f;
+                powerDamage = 40;
+                break;
+            case 8:
+                maxXPGrus = 800;
+                maxHealthGrus = 275;
+                cooldownMax = 1.25f;
+                powerDamage = 45;
+                break;
+            case 9:
+                maxXPGrus = 900;
+                maxHealthGrus = 300;
+                cooldownMax = 1f;
+                powerDamage = 45;
+                break;
+            case 10:
+                maxXPGrus = 1000;
+                maxHealthGrus = 325;
+                cooldownMax = 0.75f;
+                powerDamage = 50;
+                break;
+        }
+        if (XPGrus >= maxXPGrus && LevelGrus < 10)
+        {
+            LevelGrus++;
+            HealthGrus = maxHealthGrus;
             if (LevelUpClip != null) AudioWalk.PlayOneShot(LevelUpClip, AudioWalk.volume);
+        }
+        if (LevelGrus >= 10)
+        {
+            LevelGrus = 10;
+            
         }
     }
 
-    float UpHealthArraTime = 0f;
-    void UpHealthArra()
+    float UpHealthGrusTime = 0f;
+    void UpHealthGrus()
     {
-        UpHealthArraTime += Time.deltaTime;
-        if (UpHealthArraTime >= 1f)
+        UpHealthGrusTime += Time.deltaTime;
+        if (UpHealthGrusTime >= 1f)
         {
-            HealthArra += 2;
-            if (HealthArra > maxHealthArra) HealthArra = maxHealthArra;
-            UpHealthArraTime = 0f;
+            HealthGrus += 2;
+            if (HealthGrus > maxHealthGrus) HealthGrus = maxHealthGrus;
+            UpHealthGrusTime = 0f;
         }
     }
 
     void CharacterUI()
     {
-        LevelText.text = LevelArra.ToString();
+        LevelText.text = LevelGrus.ToString();
 
-        float healthPercent = Mathf.Clamp01((float)HealthArra / maxHealthArra);
+        float healthPercent = Mathf.Clamp01((float)HealthGrus / maxHealthGrus);
         HealthImage.rectTransform.sizeDelta = new Vector2(580 * healthPercent, HealthImage.rectTransform.sizeDelta.y);
 
-        float xpPercent = Mathf.Clamp01((float)XPArra / maxXPArra);
+        float xpPercent = Mathf.Clamp01((float)XPGrus / maxXPGrus);
         XPImage.rectTransform.sizeDelta = new Vector2(580 * xpPercent, XPImage.rectTransform.sizeDelta.y);
 
-        float blockPercent = Mathf.Clamp01(blockCooldownTime / blockCooldownMax);
+        float blockPercent = 1;
         blockCooldownTimeImage.rectTransform.sizeDelta = new Vector2(blockCooldownTimeImage.rectTransform.sizeDelta.x, 290 * blockPercent);
 
         float attackPercent = Mathf.Clamp01(attackCooldownTime / cooldownMax);
         attackCooldownTimeImage.rectTransform.sizeDelta = new Vector2(attackCooldownTimeImage.rectTransform.sizeDelta.x, 290 * attackPercent);
     }
 
-    public void SaveDataArra()
+    public void SaveDataGrus()
     {
-        PlayerPrefs.SetInt("XPArra", XPArra);
-        PlayerPrefs.SetInt("maxXPArra", maxXPArra);
-        PlayerPrefs.SetInt("LevelArra", LevelArra);
-        PlayerPrefs.SetInt("maxHealthArra", maxHealthArra);
-        PlayerPrefs.SetInt("DamageBoll", FloraBoll.DamageBoll);
-        PlayerPrefs.SetInt("MaxBlockHP", blockArra.staticMaxBlockHP);
+        PlayerPrefs.SetInt("XPGrus", XPGrus);
+        PlayerPrefs.SetInt("maxXPGrus", maxXPGrus);
+        PlayerPrefs.SetInt("LevelGrus", LevelGrus);
+        PlayerPrefs.SetInt("maxHealthGrus", maxHealthGrus);
+        PlayerPrefs.SetInt("DamageGrus", powerDamage);
+        PlayerPrefs.SetInt("savedSceneIndex", savedSceneIndexGrus);
         PlayerPrefs.Save();
     }
 }
