@@ -30,7 +30,7 @@ public class Grus : MonoBehaviour
     private float cooldownTime;
     public float cooldownMax = 3f;
     private float attackCooldownTime;
-    public int powerDamage = 20;
+    public static int powerDamage = 20;
     public GameObject attackEffect;
 
     [Header("Block")]
@@ -70,6 +70,7 @@ public class Grus : MonoBehaviour
 
 
     public static bool isPause = false;
+    public int savedSceneIndexGrus;
 
     void Start()
     {
@@ -83,6 +84,7 @@ public class Grus : MonoBehaviour
         isMove = true;
         isMoving = false;
         isPause = false;
+        isBlockGrus = false;
 
         HealthGrus = PlayerPrefs.GetInt("HealthGrus", maxHealthGrus);
         XPGrus = PlayerPrefs.GetInt("XPGrus", 0);
@@ -91,6 +93,8 @@ public class Grus : MonoBehaviour
         maxHealthGrus = PlayerPrefs.GetInt("maxHealthGrus", 100);
         powerDamage = PlayerPrefs.GetInt("DamageGrus", 20);
         AudioWalk.volume = PlayerPrefs.GetFloat("gameVolume", 0.5f) * 1.5f;
+        savedSceneIndexGrus = PlayerPrefs.GetInt("savedSceneIndex", 2);
+        PlayerPrefs.SetInt("savedSceneIndex", savedSceneIndexGrus);
     }
 
     void Update()
@@ -149,40 +153,79 @@ public class Grus : MonoBehaviour
         if (other.CompareTag("Finish"))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            isMove = false;
         }
         if (other.CompareTag("Trap"))
         {
-            HealthGrus -= 10;
-            if (HealthGrus <= 0)
-            {
-                DeathGrus();
-            }
-            isDamage = true;
-            damageTime = 0.5f;
-            if (damageClip != null) AudioWalk.PlayOneShot(damageClip, AudioWalk.volume);
-        }
-        if (other.CompareTag("Enemy"))
-        {
             if (isBlockGrus == false)
-            { 
+            {
                 HealthGrus -= 10;
                 if (HealthGrus <= 0)
                 {
                     DeathGrus();
                 }
                 isDamage = true;
-                damageTime = 0.5f; 
+                damageTime = 0.5f;
                 if (damageClip != null) AudioWalk.PlayOneShot(damageClip, AudioWalk.volume);
             }
-            
+        }
+        if (other.CompareTag("Boulder"))
+        {
+            DeathGrus();
+        }
+        if (other.CompareTag("Enemy"))
+        {
+            if (isBlockGrus == false)
+            {
+                HealthGrus -= 10;
+                if (HealthGrus <= 0)
+                {
+                    DeathGrus();
+                }
+                isDamage = true;
+                damageTime = 0.5f;
+                if (damageClip != null) AudioWalk.PlayOneShot(damageClip, AudioWalk.volume);
+            }
+
+        }
+        if (other.CompareTag("Gul"))
+        {
+            if (!isBlockGrus)
+            {
+                HealthGrus -= 10;
+                if (HealthGrus <= 0)
+                {
+                    DeathGrus();
+                }
+                isDamage = true;
+                damageTime = 0.5f;
+                if (damageClip != null) AudioWalk.PlayOneShot(damageClip, AudioWalk.volume);
+            }
+        }
+
+        if (other.CompareTag("Ork"))
+        {
+            if (!isBlockGrus)
+            {
+                HealthGrus -= 20;
+                if (HealthGrus <= 0)
+                {
+                    DeathGrus();
+                }
+                isDamage = true;
+                damageTime = 0.5f;
+                if (damageClip != null) AudioWalk.PlayOneShot(damageClip, AudioWalk.volume);
+
+            }
         }
     }
 
     // Рух
     void MoveGrus()
     {
-        if (Input.GetKey(KeyCode.D) )
+        if (Input.GetKey(KeyCode.D) && isDead == false)
         {
+            isMove = true;
             isMoving = true;
             if (isMove) transform.localPosition += transform.right * speed * Time.deltaTime;
             animator.SetBool("isWalk", true);
@@ -194,7 +237,7 @@ public class Grus : MonoBehaviour
                 
             }
         }
-        else if (Input.GetKey(KeyCode.A))
+        else if (Input.GetKey(KeyCode.A) && isDead == false)
         {
             isMoving = true;
             if (isMove) transform.localPosition += transform.right * -speed * Time.deltaTime;
@@ -213,7 +256,7 @@ public class Grus : MonoBehaviour
             animator.SetBool("isWalk", false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && isDead == false)
         {
             isMoving = true;
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
@@ -309,12 +352,14 @@ public class Grus : MonoBehaviour
 
         if (deathClip != null) AudioWalk.PlayOneShot(deathClip, AudioWalk.volume);
         animator.SetTrigger("isDeath");
+        animator.SetBool("isWalk", false);
+        animator.SetBool("isRun", false);
+        animator.SetBool("isJump", false);
         isMove = false;
     }
     public void OnDeathAnimationFinished()
     {
         SceneManager.LoadScene(0);
-        SaveDataGrus();
     }
 
 
@@ -331,16 +376,79 @@ public class Grus : MonoBehaviour
 
     void LevelUp()
     {
-        if (XPGrus >= maxXPGrus && LevelGrus <= 10)
+        switch (LevelGrus)
         {
-            XPGrus -= maxXPGrus;
-            maxXPGrus += 100;
+            case 1:
+                maxXPGrus = 100;
+                maxHealthGrus = 120;
+                cooldownMax = 3f;
+                powerDamage = 10;
+                break;
+            case 2:
+                maxXPGrus = 200;
+                maxHealthGrus = 145;
+                cooldownMax = 2.75f;
+                powerDamage = 15;
+                break;
+            case 3:
+                maxXPGrus = 300;
+                maxHealthGrus = 170;
+                cooldownMax = 2.5f;
+                powerDamage = 20;
+                break;
+            case 4:
+                maxXPGrus = 400;
+                maxHealthGrus = 195;
+                cooldownMax = 2.25f;
+                powerDamage = 25;
+                break;
+            case 5:
+                maxXPGrus = 500;
+                maxHealthGrus = 220;
+                cooldownMax = 2f;
+                powerDamage = 30;
+                break;
+            case 6:
+                maxXPGrus = 600;
+                maxHealthGrus = 225;
+                cooldownMax = 1.75f;
+                powerDamage = 35;
+                break;
+            case 7:
+                maxXPGrus = 700;
+                maxHealthGrus = 250;
+                cooldownMax = 1.5f;
+                powerDamage = 40;
+                break;
+            case 8:
+                maxXPGrus = 800;
+                maxHealthGrus = 275;
+                cooldownMax = 1.25f;
+                powerDamage = 45;
+                break;
+            case 9:
+                maxXPGrus = 900;
+                maxHealthGrus = 300;
+                cooldownMax = 1f;
+                powerDamage = 45;
+                break;
+            case 10:
+                maxXPGrus = 1000;
+                maxHealthGrus = 325;
+                cooldownMax = 0.75f;
+                powerDamage = 50;
+                break;
+        }
+        if (XPGrus >= maxXPGrus && LevelGrus < 10)
+        {
             LevelGrus++;
-            maxHealthGrus += 10;
             HealthGrus = maxHealthGrus;
-            cooldownMax -= 0.25f;
             if (LevelUpClip != null) AudioWalk.PlayOneShot(LevelUpClip, AudioWalk.volume);
-            powerDamage += 5;
+        }
+        if (LevelGrus >= 10)
+        {
+            LevelGrus = 10;
+            
         }
     }
 
@@ -380,6 +488,7 @@ public class Grus : MonoBehaviour
         PlayerPrefs.SetInt("LevelGrus", LevelGrus);
         PlayerPrefs.SetInt("maxHealthGrus", maxHealthGrus);
         PlayerPrefs.SetInt("DamageGrus", powerDamage);
+        PlayerPrefs.SetInt("savedSceneIndex", savedSceneIndexGrus);
         PlayerPrefs.Save();
     }
 }
