@@ -1,0 +1,195 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: UItext Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: UItext
+  m_TableCollectionNameGuidString: 3f2141a5a305eb249acf3d847efdd892
+  m_Entries:
+  - m_Id: 111925956608
+    m_Key: New game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 323977383936
+    m_Key: Setting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 400057864192
+    m_Key: Information
+    m_Metadata:
+      m_Items: []
+  - m_Id: 500041682944
+    m_Key: "\u0421ontinue"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 593465610240
+    m_Key: Quit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 708448260096
+    m_Key: Brightness
+    m_Metadata:
+      m_Items: []
+  - m_Id: 862144335872
+    m_Key: Back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1053685616640
+    m_Key: Video
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1222447632384
+    m_Key: Full-Screen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1521467953152
+    m_Key: Music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1654112817152
+    m_Key: Audio game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1846501347328
+    m_Key: Arra
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1897155956736
+    m_Key: Grus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52571067551744
+    m_Key: gruslor
+    m_Metadata:
+      m_Items: []
+  - m_Id: 53219179794432
+    m_Key: Audio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85526263533568
+    m_Key: info
+    m_Metadata:
+      m_Items: []
+  - m_Id: 858458866749440
+    m_Key: Load
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1148988532101120
+    m_Key: Pause
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1149444285173760
+    m_Key: SaveAndExit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1230359602565120
+    m_Key: arralor
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1231170013401088
+    m_Key: SelectPerson
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2390594891452416
+    m_Key: Health
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2390702567624704
+    m_Key: Attack
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2390721223888896
+    m_Key: Block
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2390901427965952
+    m_Key: XP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2395189063618560
+    m_Key: "To walk, press \u201CA\u201D or \u201CD\u201D"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2395907304624128
+    m_Key: "To steal, press \u201CSpace\u201D"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2403577927471104
+    m_Key: "To attack, press \u201Cleft-click\u201D, and to block, press \u201Cright-click\u201D."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2405953631588352
+    m_Key: Beware of traps
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2728962191953920
+    m_Key: Level 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2729005783355392
+    m_Key: Level 2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2729026704543744
+    m_Key: Level 3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2729058291847168
+    m_Key: Level 4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2729074846765056
+    m_Key: Level 5
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2737301177143296
+    m_Key: Final Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2739721353465856
+    m_Key: "To exit the main menu, press \u201CESC\u201D"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2743311551860736
+    m_Key: Thank you
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2743410206085120
+    m_Key: "Thank you for playing this game.\nI hope you enjoyed it, or if you haven't
+      played it yet, I hope you will.\nThe game was developed by:\nRoman Trut\nDanylo
+      Protsanin\nRoman Protsanin\nAnna\nYelyzaveta Tsarenko\nYevheniia\n\nThank you
+      again\u2665"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2756996534013952
+    m_Key: Don't forget to save before completing the level.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6304407520972800
+    m_Key: "Next level\u2192"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7253267974098944
+    m_Key: Guardian
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 5820290301323116568
+  references:
+    version: 2
+    RefIds:
+    - rid: 5820290301323116568
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1754725106070
