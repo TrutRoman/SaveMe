@@ -44,7 +44,6 @@ public class MainMenu : MonoBehaviour
     public Button buttonContinue;
     void Awake()
     {
-        if (brightness == 0) brightness = 0;
         ContinueV = PlayerPrefs.GetInt("savedSceneIndex", 0);
         
         LoadSettings();
@@ -116,6 +115,20 @@ public class MainMenu : MonoBehaviour
 
         PlayerPrefs.SetInt("isPerson", isPerson ? 1 : 0);
         PlayerPrefs.SetInt("savedSceneIndex", 0);
+
+        PlayerPrefs.SetInt("XPArra", 0);
+        PlayerPrefs.SetInt("maxXPArra", 100);
+        PlayerPrefs.SetInt("LevelArra", 1);
+        PlayerPrefs.SetInt("maxHealthArra", 100);
+        PlayerPrefs.SetInt("DamageBoll", 10);
+        PlayerPrefs.SetInt("MaxBlockHP", 50);
+
+        PlayerPrefs.SetInt("XPGrus", 0);
+        PlayerPrefs.SetInt("maxXPGrus", 100);
+        PlayerPrefs.SetInt("LevelGrus", 1);
+        PlayerPrefs.SetInt("maxHealthGrus", 100);
+        PlayerPrefs.SetInt("DamageGrus", 20);
+
         PlayerPrefs.Save();
     }
     public void Grus()
@@ -125,6 +138,19 @@ public class MainMenu : MonoBehaviour
     
         PlayerPrefs.SetInt("isPerson", isPerson ? 1 : 0);
         PlayerPrefs.SetInt("savedSceneIndex", 0);
+
+        PlayerPrefs.SetInt("XPArra", 0);
+        PlayerPrefs.SetInt("maxXPArra", 100);
+        PlayerPrefs.SetInt("LevelArra", 1);
+        PlayerPrefs.SetInt("maxHealthArra", 100);
+        PlayerPrefs.SetInt("DamageBoll", 10);
+        PlayerPrefs.SetInt("MaxBlockHP", 50);
+
+        PlayerPrefs.SetInt("XPGrus", 0);
+        PlayerPrefs.SetInt("maxXPGrus", 100);
+        PlayerPrefs.SetInt("LevelGrus", 1);
+        PlayerPrefs.SetInt("maxHealthGrus", 100);
+        PlayerPrefs.SetInt("DamageGrus", 20);
         PlayerPrefs.Save();
     }
 
@@ -155,12 +181,11 @@ public class MainMenu : MonoBehaviour
 
     //Слайдер яскравості
     public Slider sliderBrightness;
-    public static float brightness;
-    public float tt;
+    public static float brightness = 0f;
     public void SetBrightness()
     {
+        PlayerPrefs.SetFloat("brightness", Mathf.Clamp(sliderBrightness.value, 0f, 0.4f));
         brightness = Mathf.Clamp(sliderBrightness.value, 0f, 0.4f);
-        tt = brightness;
     }
 
     //Слайдер музики
@@ -221,7 +246,7 @@ public class MainMenu : MonoBehaviour
     public void SaveSettings()
     {
         PlayerPrefs.SetString("lang", LocalizationSettings.SelectedLocale.Identifier.Code);
-        PlayerPrefs.SetFloat("brightness", brightness);
+        PlayerPrefs.SetFloat("brightness", Mathf.Clamp(sliderBrightness.value, 0f, 0.4f));
         PlayerPrefs.SetFloat("musicVolume", musicVolume);
         PlayerPrefs.SetFloat("gameVolume", gameVolume);
         PlayerPrefs.SetFloat("fullscreen", isFullscreen ? 1f : 0f);
@@ -237,13 +262,12 @@ public class MainMenu : MonoBehaviour
         Locale locale = LocalizationSettings.AvailableLocales.GetLocale(savedLang);
         LocalizationSettings.SelectedLocale = locale;
 
-        brightness = PlayerPrefs.GetFloat("brightness", 0f);
+        sliderBrightness.value = PlayerPrefs.GetFloat("brightness", 0f);
         musicVolume = PlayerPrefs.GetFloat("musicVolume", 0.5f);
         gameVolume = PlayerPrefs.GetFloat("gameVolume", 0.5f);
         isFullscreen = PlayerPrefs.GetFloat("fullscreen", 0f) == 1f;
 
 
-        sliderBrightness.value = brightness;
         sliderMusic.value = musicVolume;
         sliderGame.value = gameVolume;
 

@@ -71,7 +71,14 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 52571067551744
-    m_Localized: Select person
+    m_Localized: A strong and resilient warrior, he hails from the northern lands,
+      where he was accustomed to harsh conditions and constant struggle from an early
+      age. Armed with a heavy sword and iron shield, he relies on strength and straightforwardness
+      in battle. Grus is not particularly fond of cunning, but he knows how to be
+      resourceful when it is necessary for survival. His life is a journey of helping
+      others, long travels, and encounters with monsters. After Arya's abduction,
+      he is ready to descend into the deepest traps of the dungeon to rescue his
+      friend, even if it means fighting creatures that the whole world fears.
     m_Metadata:
       m_Items: []
   - m_Id: 53219179794432
@@ -97,12 +104,132 @@ MonoBehaviour:
 
       Block - Mouse2
 
-      Heals
-      - Q
-
-      Use/interaction-F
-
 '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 858458866749440
+    m_Localized: Loading
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1148988532101120
+    m_Localized: Pause
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1149444285173760
+    m_Localized: Save  and exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1230359602565120
+    m_Localized: A young, agile elf who grew up in a mountain village, where she
+      learned to combine magic and tactical intelligence from childhood. She uses
+      a staff and a protective spherical shield that can deflect both physical and
+      magical attacks. Ara is always gentle and kind, but she knows how to remain
+      calm even in the most difficult situations. Her main goal is to help people
+      and seek justice, even if it means venturing into the dangers of the dungeons.
+      The conflict with the werewolf became not only a test of strength for her,
+      but also a chance to save her friend and uncover the secrets of an ancient
+      evil.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1231170013401088
+    m_Localized: Select person
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2390594891452416
+    m_Localized: Health
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2390702567624704
+    m_Localized: Attack
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2390721223888896
+    m_Localized: Block
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2390901427965952
+    m_Localized: XP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2395189063618560
+    m_Localized: "To walk, press \u201CA\u201D or \u201CD.\u201D\nTo run, hold down
+      \u201CShift\u201D as well."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2395907304624128
+    m_Localized: "To steal, press \u201CSpace\u201D"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2403577927471104
+    m_Localized: "To attack, press \u201Cleft-click\u201D, \nand to block, press
+      \u201Cright-click\u201D."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2405953631588352
+    m_Localized: Beware of traps
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2728962191953920
+    m_Localized: Level 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2729005783355392
+    m_Localized: Level 2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2729026704543744
+    m_Localized: Level 3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2729058291847168
+    m_Localized: Level 4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2729074846765056
+    m_Localized: Level 5
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2737301177143296
+    m_Localized: "When the final blow was dealt to the werewolf, the darkness began
+      to dissipate. The dungeon shook, not from the monster's wrath, but from the
+      ancient curse disappearing with it. The enemy's body lost its strength and
+      crumbled to ashes, as if it had never existed.\n\nThe captive companion appeared
+      before the player, exhausted but alive. They met each other's gaze, and there
+      was no need for words: each understood that their bond was stronger than any
+      evil.\n\nThe cave was illuminated by a soft glow \u2014 what had been a gloomy
+      dungeon a minute ago now resembled a temple where even the stones radiated
+      peace. The exit opened by itself.\n\nClimbing to the surface, Ara and Grus
+      breathed in the fresh air again. Before them lay dawn \u2014 the first after
+      long nights in darkness. Both realized that what they had experienced had changed
+      them forever: now they were not just travelers who helped people, but those
+      who were capable of overcoming even ancient evil.\n\nTheir journey continues
+      \u2014 but now together, without fear of losing each other."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2739721353465856
+    m_Localized: "To exit the main menu, press \u201CESC\u201D"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2743311551860736
+    m_Localized: Thank you
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2743410206085120
+    m_Localized: "Thank you for playing this game.\nI hope you enjoyed it, or if
+      you haven't played it yet, I hope you will.\nThe game was developed by:\nRoman
+      Trut\nDanylo Protsanin\nRoman \nAnna\nYelyzaveta \nYevheniia\n\nThank you again\u2665"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2756996534013952
+    m_Localized: Don't forget to save before completing the level.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6304407520972800
+    m_Localized: "Next level\u2192"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7253267974098944
+    m_Localized: Guardian
     m_Metadata:
       m_Items: []
   references:

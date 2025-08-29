@@ -68,7 +68,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 52571067551744
-    m_Key: SelectPerson
+    m_Key: gruslor
     m_Metadata:
       m_Items: []
   - m_Id: 53219179794432
@@ -77,6 +77,109 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 85526263533568
     m_Key: info
+    m_Metadata:
+      m_Items: []
+  - m_Id: 858458866749440
+    m_Key: Load
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1148988532101120
+    m_Key: Pause
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1149444285173760
+    m_Key: SaveAndExit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1230359602565120
+    m_Key: arralor
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1231170013401088
+    m_Key: SelectPerson
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2390594891452416
+    m_Key: Health
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2390702567624704
+    m_Key: Attack
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2390721223888896
+    m_Key: Block
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2390901427965952
+    m_Key: XP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2395189063618560
+    m_Key: "To walk, press \u201CA\u201D or \u201CD\u201D"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2395907304624128
+    m_Key: "To steal, press \u201CSpace\u201D"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2403577927471104
+    m_Key: "To attack, press \u201Cleft-click\u201D, and to block, press \u201Cright-click\u201D."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2405953631588352
+    m_Key: Beware of traps
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2728962191953920
+    m_Key: Level 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2729005783355392
+    m_Key: Level 2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2729026704543744
+    m_Key: Level 3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2729058291847168
+    m_Key: Level 4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2729074846765056
+    m_Key: Level 5
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2737301177143296
+    m_Key: Final Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2739721353465856
+    m_Key: "To exit the main menu, press \u201CESC\u201D"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2743311551860736
+    m_Key: Thank you
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2743410206085120
+    m_Key: "Thank you for playing this game.\nI hope you enjoyed it, or if you haven't
+      played it yet, I hope you will.\nThe game was developed by:\nRoman Trut\nDanylo
+      Protsanin\nRoman Protsanin\nAnna\nYelyzaveta Tsarenko\nYevheniia\n\nThank you
+      again\u2665"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2756996534013952
+    m_Key: Don't forget to save before completing the level.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6304407520972800
+    m_Key: "Next level\u2192"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7253267974098944
+    m_Key: Guardian
     m_Metadata:
       m_Items: []
   m_Metadata:
