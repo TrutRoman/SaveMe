@@ -445,6 +445,7 @@ MonoBehaviour:
   b3: {fileID: 2946826222812914574}
   bb: {fileID: 8792470214603933346}
   info: {fileID: 8744294931489944740}
+  arraScript: {fileID: 4661287994097046371, guid: b7fb7d7edd247834f9ec9fc3404828eb, type: 3}
 --- !u!1 &1796152356928949146
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,6 +16,7 @@ public class Pause : MonoBehaviour
     public Button b3;
     public Button bb;
     public Text info;
+    public static bool isExit = false;
 
     void Start()
     {
@@ -26,6 +27,7 @@ public class Pause : MonoBehaviour
         b3.gameObject.SetActive(true);
         bb.gameObject.SetActive(false);
         info.gameObject.SetActive(false);
+        isExit = false;
 
 
         /*
@@ -49,12 +51,15 @@ public class Pause : MonoBehaviour
         PlayerPrefs.SetInt("savedSceneIndex", savedSceneIndex);
         PlayerPrefs.Save();
         SceneManager.LoadScene(0);
+        isExit = true;
     }
 
     public void Continue()
     {
         Time.timeScale = 1;
         pauseMenu.SetActive(false);
+        Grus.isPause = false;
+        Arra.isPause = false;
     }
 
     public void InformotionPause()
