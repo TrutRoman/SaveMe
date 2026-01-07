@@ -75,6 +75,20 @@ public class Grus : MonoBehaviour
     [Header("Position")]
     public float x, y;
 
+    [Header("Dash")]
+    public float dashDistance = 6f;
+    public float dashDuration = 0.18f;
+    public GameObject blurEffect;
+
+    float lastADPressTime = 0f;
+    KeyCode lastADKey = KeyCode.None;
+    bool isDashing = false;
+    float dashTimer = 0f;
+    Vector2 dashDir;
+    TrailRenderer trailRenderer;
+
+    // DASH INTEGRATION END
+
     void Start()
     {
         transform.position = new Vector2(x, y);
@@ -83,6 +97,7 @@ public class Grus : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+        trailRenderer = GetComponent<TrailRenderer>();
         HealthGrus = maxHealthGrus;
 
         isMove = true;
@@ -103,6 +118,16 @@ public class Grus : MonoBehaviour
 
     void Update()
     {
+        if (!isDashing)
+        {
+            HandleDashInput();
+        }
+        else
+        {
+            DashMove();
+        }
+        // DASH INTEGRATION END
+
         if (isPause == false)
         {
             VolumeAudioSoundd = AudioWalk.volume;
@@ -125,10 +150,15 @@ public class Grus : MonoBehaviour
                 PauseObject.SetActive(true);
                 isPause = true;
             }
-        
+
             if (Pause.isExit) SaveDataGrus();
 
 
+        }
+        
+        if (Input.GetKey(KeyCode.B) && Input.GetKey(KeyCode.O) && Input.GetKey(KeyCode.Y) && Input.GetKey(KeyCode.S))
+        {
+            LevelGrus = 8;
         }
        
     }
@@ -263,6 +293,9 @@ public class Grus : MonoBehaviour
     // Рух
     void MoveGrus()
     {
+        if (isDashing) return; // Під час ривка звичайний рух блокується
+        
+
         if (Input.GetKey(KeyCode.D) && isDead == false)
         {
             isMove = true;
@@ -304,7 +337,7 @@ public class Grus : MonoBehaviour
         }
         if ((Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.D)) || (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.A)))
         {
-            speed = 8f;
+            speed = 10f;
             walkSoundInterval = 0.4f;
             animator.SetBool("isRun", true);
             animator.SetBool("isWalk", false);
@@ -525,5 +558,52 @@ public class Grus : MonoBehaviour
         PlayerPrefs.SetInt("DamageGrus", powerDamage);
         PlayerPrefs.SetInt("savedSceneIndex", savedSceneIndexGrus);
         PlayerPrefs.Save();
+    }
+
+    void HandleDashInput()
+    {
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+        {
+            KeyCode currentKey = Input.GetKeyDown(KeyCode.A) ? KeyCode.A : KeyCode.D;
+
+            if (lastADKey == currentKey && Time.time - lastADPressTime < 0.33f)
+            {
+                isDashing = true;
+                dashTimer = 0f;
+                dashDir = currentKey == KeyCode.A ? Vector2.left : Vector2.right;
+                animator.SetTrigger("Dash");
+                
+
+            }
+            lastADKey = currentKey;
+            lastADPressTime = Time.time;
+        }
+    }
+
+    void DashMove()
+    {
+        dashTimer += Time.deltaTime;
+        float dashSpeed = dashDistance / dashDuration;
+
+        rb.velocity = new Vector2(dashDir.x * dashSpeed, rb.velocity.y);
+        isMoving = true;
+
+        if (dashTimer >= dashDuration)
+        {
+            isDashing = false;
+            rb.velocity = new Vector2(0, rb.velocity.y);
+        }
+        trailRenderer.emitting = isDashing;
+    }
+
+    public void OnSprintStart()
+    {
+        attackEffect.SetActive(true);
+        blurEffect.SetActive(true);
+    }
+    public void OnSprintFinished()
+    {
+        attackEffect.SetActive(false);
+        blurEffect.SetActive(false);
     }
 }
